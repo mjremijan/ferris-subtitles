@@ -7,7 +7,7 @@ import java.util.LinkedList;
  *
  * @author Michael Remijan <mjremijan@yahoo.com>
  */
-public class DiffBurnInWithTrackMain {
+public class ExtractBurnInFromFull {
 
     private static final String dir = "D:\\Desktop";
     private static final String burnIn = dir + "\\" + "Dawn.Of.The.Planet.of.The.Apes.2014.1080p.WEB-DL.DD51.H264-RARBG-Forced.srt";
