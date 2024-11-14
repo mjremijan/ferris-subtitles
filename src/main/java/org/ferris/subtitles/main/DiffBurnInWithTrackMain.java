@@ -26,7 +26,7 @@ public class DiffBurnInWithTrackMain {
             int idx = fullSubtitles.indexOf(burnInSubtitle);
             if (idx >= 0) {
                 Subtitle trackSubtitle = fullSubtitles.get(idx);
-                if (!trackSubtitle.wordsEmpty()) {
+                if (!trackSubtitle.isWordsEmpty()) {
                     System.out.printf("~~FIX TRACK SUBTITLE~~%n%s%n",trackSubtitle.toString());
                 }
             }

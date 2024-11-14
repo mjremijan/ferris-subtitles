@@ -13,9 +13,18 @@ import java.util.Objects;
 public class Subtitle {
 
     protected int index;
-    protected String start, times, words, minsec;
+    protected String start, times, minsec;
+    protected String words;
+    protected boolean burnIn;
 
-    private void parseStart(String formattedStr) {
+    public Subtitle(int index) {
+        this.index = index;
+        this.start = "";
+        this.words = "";
+        this.burnIn = false;
+    }
+    
+    private void setTime(String formattedStr) {
         // formattedStr
         // 00:04:00,807 --> 00:04:02,206
         times = formattedStr;
@@ -30,14 +39,8 @@ public class Subtitle {
         words += w;
     }
 
-    public boolean wordsEmpty() {
+    public boolean isWordsEmpty() {
         return words.isEmpty();
-    }
-
-    public Subtitle(int index) {
-        this.index = index;
-        this.start = "";
-        this.words = "";
     }
 
     @Override
@@ -89,17 +92,17 @@ public class Subtitle {
             // Start of a new "subtitle" 
             // Go to next line
             try { 
-                subtitles.push(new Subtitle(Integer.parseInt(line)));
+                subtitles.add(new Subtitle(Integer.parseInt(line)));
                 continue;
             } catch (NumberFormatException ignore) {}
             
             // Get the subtitle
-            Subtitle s = subtitles.peek();
+            Subtitle s = subtitles.getLast();
             
             // Is this the line with the times
             // go to next line
             if (line.contains("-->")) {
-                s.parseStart(line);
+                s.setTime(line);
                 continue;
             }
             
@@ -107,7 +110,23 @@ public class Subtitle {
             s.addWords(line);
         }
         
-        
         return subtitles;
+    }
+
+    boolean matchesBurnIn(Subtitle burnIn) {
+        if (minsec.equalsIgnoreCase(burnIn.minsec)) {
+            String foo = burnIn.words;
+            if (foo.length() >= 5) {
+                foo = foo.substring(0,5);
+            }
+            if (words.startsWith(foo)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    void setAsBurnIn() {
+        burnIn = true;
     }
 }
